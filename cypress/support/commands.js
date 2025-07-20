@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+/**
+ * para escrever e clicar na caixa e botão de busca (principais), respectivamente
+ * usando no teste do cenário 4 - search-educational-content.cy.js
+ */
+Cypress.Commands.add("typeAndSearch", (keyword) => {
+  cy.get("#gsc-i-id1").type(keyword);
+  cy.contains("button", "search").click();
+});
+
+/**
+ * para aguardar o carregamento do modal de resultado da busca
+ * usando no teste do cenário 4 - search-educational-content.cy.js
+ */
+Cypress.Commands.add("waitingLoad", (className) => {
+  // TODO: retirar o timeout caso não seja necessário
+  cy.get(className, { timeout: 10000 }).should("be.visible");
+});
