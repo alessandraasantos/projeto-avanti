@@ -11,14 +11,16 @@ describe('Impedir inscrição com email inválido ao se inscrever em um curso', 
     // Clica no link "JUnit"
     cy.contains('a', 'JUnit').click({ force: true });
 
-    // Digita um email inválido propositalmente bloqueado
-    cy.get('#awf_field-118121359').type('usuario@hotmail.com');
+    // Digita um email inválido
+    cy.get('#awf_field-118121359').type('ale@gmail');
 
     // Clica no botão "Sign Up Now!"
     cy.get('input[value="Sign Up Now!"]').click();
 
-    // Verifica o redirecionamento e a mensagem de erro
-    cy.url().should('include', 'form-sorry.htm');
-    cy.get('#error-heading').should('have.text', 'Different Address Needed');
+    // Verifica o redirecionamento e asserções no novo domínio
+    cy.origin('https://www.aweber.com', () => {
+      cy.url().should('include', 'form-sorry.htm');
+      cy.get('#error-heading').should('have.text', 'Email Address Is Not Valid');
+    });
   });
 });
